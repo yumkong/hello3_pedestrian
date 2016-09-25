@@ -28,7 +28,7 @@ function [pred_boxes, scores, box_deltas_, anchors_, scores_] = proposal_im_dete
     % permute from [width, height, channel] to [channel, height, width], where channel is the
         % fastest dimension
     box_deltas = permute(box_deltas, [3, 2, 1]);
-    box_deltas = reshape(box_deltas, 4, [])';
+    box_deltas = reshape(box_deltas, 4, [])'; %'
     
     anchors = proposal_locate_anchors(conf, size(im), conf.test_scales, featuremap_size);
     pred_boxes = fast_rcnn_bbox_transform_inv(anchors, box_deltas);
@@ -92,7 +92,7 @@ function [feat_rois, levels] = map_im_rois_to_feat_rois(conf, im_rois, scales)
         heights = im_rois(:, 4) - im_rois(:, 2) + 1;
         
         areas = widths .* heights;
-        scaled_areas = bsxfun(@times, areas(:), scales(:)'.^2);
+        scaled_areas = bsxfun(@times, areas(:), scales(:)'.^2);  %'
         levels = max(abs(scaled_areas - 224.^2), 2); 
     else
         levels = ones(size(im_rois, 1), 1);
